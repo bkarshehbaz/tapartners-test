@@ -31,7 +31,9 @@
     "@nuxtjs/sitemap": "2.4.0",
     "amplitude-js": "7.4.2",
     "apexcharts": "3.25.0",
+    "body-parser": "^1.20.0",
     "esm": "^3.2.25",
+    "express": "^4.18.1",
     "imagemin-mozjpeg": "9.0.0",
     "imagemin-pngquant": "9.0.1",
     "nuxt": "2.15.2",
@@ -42,7 +44,8 @@
     "vue-amplitude": "1.0.3",
     "vue-apexcharts": "1.6.0",
     "vue-confetti": "2.2.1",
-    "vue-template-compiler": "2.6.12"
+    "vue-server-renderer": "^2.7.8",
+    "vue-template-compiler": "^2.7.8"
   },
   "devDependencies": {
     "@mdi/js": "5.9.55",

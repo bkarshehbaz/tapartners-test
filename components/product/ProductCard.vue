@@ -36,7 +36,7 @@
                 class="py-6"
                 @click="logClick('free test')"
               >
-                Take the free test
+                 START THE TEST NOW
               </v-btn>
             </v-card-actions>
           </v-col>

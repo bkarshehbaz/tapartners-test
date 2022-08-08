@@ -3,10 +3,7 @@
     <LazyFormLanguage v-if="!form.language" />
     <div v-else>
       <v-row>
-        <v-col
-          cols="10"
-          class="pa-0"
-        >
+        <v-col cols="10" class="pa-0">
           <LazyTestLanguageSwitcher />
         </v-col>
         <v-col>
@@ -24,14 +21,11 @@
       >
         {{ GET_PROGRESS }}%
       </v-progress-linear>
-      <div
-        v-for="question in GET_CURRENT_QUESTIONS"
-        :key="question.id"
-      >
+      <div v-for="question in GET_CURRENT_QUESTIONS" :key="question.id">
         <h2>{{ question.text }}</h2>
         <v-radio-group
           :value="GET_CURRENT_ANSWER(question.id)"
-          @change="answer => SET_ANSWER({ id: question.id, answer } )"
+          @change="answer => SET_ANSWER({ id: question.id, answer })"
         >
           <v-radio
             v-for="(choice, i) in question.choices"
@@ -77,24 +71,14 @@
           </v-btn>
         </div>
 
-        <div
-          v-else-if="loading"
-          class="text-center"
-        >
-          <v-progress-circular
-            indeterminate
-            color="secondary"
-            size="128"
-          />
+        <div v-else-if="loading" class="text-center">
+          <v-progress-circular indeterminate color="secondary" size="128" />
         </div>
 
         <div v-else>
-          <v-btn
-            large
-            color="secondary"
-            @click="SUBMIT_TEST"
-          >
-            {{ $t('test.seeResults') }}
+          <v-btn large color="secondary" @click="SUBMIT_TEST">
+            <!-- {{ $t('test.seeResults') }} -->
+            Submit Results
           </v-btn>
         </div>
       </v-row>
@@ -103,47 +87,63 @@
 </template>
 
 <script>
-import { mdiRadioboxMarked, mdiRadioboxBlank } from '@mdi/js'
-import { mapMutations, mapState, mapGetters, mapActions } from 'vuex'
-import { sleep } from '../lib/helpers'
+import { mdiRadioboxMarked, mdiRadioboxBlank } from "@mdi/js";
+import { mapMutations, mapState, mapGetters, mapActions } from "vuex";
+import { sleep } from "../lib/helpers";
 
 export default {
-  name: 'Test',
+  name: "Test",
   data: () => ({
     mdiRadioboxBlank,
     mdiRadioboxMarked
   }),
   head: () => ({
-    title: 'The test'
+    title: "The test"
   }),
   computed: {
-    ...mapState(['test', 'development', 'form', 'loading']),
-    ...mapGetters(['GET_CURRENT_QUESTIONS', 'GET_PROGRESS', 'NEXT_BUTTON_STATE', 'BACK_BUTTON_STATE', 'GET_CURRENT_ANSWER'])
+    ...mapState(["test", "development", "form", "loading"]),
+    ...mapGetters([
+      "GET_CURRENT_QUESTIONS",
+      "GET_PROGRESS",
+      "NEXT_BUTTON_STATE",
+      "BACK_BUTTON_STATE",
+      "GET_CURRENT_ANSWER"
+    ])
   },
   watch: {
-    'test.done': async function (testDone) {
+    "test.done": async function(testDone) {
       if (testDone) {
-        this.$confetti.start({ particlesPerFrame: 0.25, particles: [{ type: 'heart' }] })
-        await sleep(4000)
-        this.$confetti.stop()
+        this.$confetti.start({
+          particlesPerFrame: 0.25,
+          particles: [{ type: "heart" }]
+        });
+        await sleep(4000);
+        this.$confetti.stop();
       }
     }
   },
-  mounted () {
-    this.onResize()
-    this.$amplitude.getInstance().logEvent('b5.test', { part: 'start' })
+  mounted() {
+    this.onResize();
+    this.$amplitude.getInstance().logEvent("b5.test", { part: "start" });
   },
-  created () {
-    this.SET_INVENTORY()
+  created() {
+    this.SET_INVENTORY();
   },
   methods: {
-    ...mapMutations(['SET_INVENTORY', 'SET_ANSWER', 'NEXT_QUESTIONS', 'PREVIOUS_QUESTIONS', 'SET_ITEMS_PER_PAGE', 'SKIP_QUESTIONS']),
-    ...mapActions(['SUBMIT_TEST']),
-    onResize () {
+    ...mapMutations([
+      "SET_INVENTORY",
+      "SET_ANSWER",
+      "NEXT_QUESTIONS",
+      "PREVIOUS_QUESTIONS",
+      "SET_ITEMS_PER_PAGE",
+      "SKIP_QUESTIONS"
+    ]),
+    ...mapActions(["SUBMIT_TEST"]),
+    onResize() {
       window.innerWidth < 600
         ? this.SET_ITEMS_PER_PAGE(1)
-        : this.SET_ITEMS_PER_PAGE(3)
+        : this.SET_ITEMS_PER_PAGE(3);
     }
   }
-}
+};
 </script>

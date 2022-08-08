@@ -7,39 +7,39 @@
     >
       <div class="toolbar-wrapper">
         <div class="d-flex align-center">
-          <nuxt-link :to="localePath('/')">
+          <a  href="https://www.tapartners.org/">
             <transition
               appear
               name="rotate"
             >
               <v-img
                 alt="BigFive logo"
-                class="shrink mr-2"
+                class="shrink mr-2 logo-header"
                 contain
                 :src="logoSrc"
                 transition="fade-transition"
-                width="40"
+                width="200"
               />
             </transition>
-          </nuxt-link>
+          </a >
         </div>
         <v-spacer />
-        <v-btn
+        <!-- <v-btn
           text
           :to="localePath('result')"
           class="hidden-sm-and-down text-none font-weight-regular"
         >
           {{ $t('toolbar.see_results') }}
-        </v-btn>
-        <v-btn
+        </v-btn> -->
+        <!-- <v-btn
           text
           :to="localePath('compare')"
           class="hidden-sm-and-down text-none font-weight-regular"
         >
           {{ $t('toolbar.compare_with') }}
-        </v-btn>
-        <LanguageSwitcher />
-        <v-menu
+        </v-btn> -->
+        <!-- <LanguageSwitcher /> -->
+        <!-- <v-menu
           v-model="drawer"
           bottom
           offset-y
@@ -72,7 +72,7 @@
               {{ item.title }}
             </v-list-item>
           </v-list>
-        </v-menu>
+        </v-menu> -->
       </div>
     </v-app-bar>
   </div>
@@ -82,14 +82,14 @@
 import { mdiMenu } from '@mdi/js'
 
 export default {
-  components: {
-    LanguageSwitcher: () => import('./LanguageSwitcher')
-  },
+  // components: {
+  //   LanguageSwitcher: () => import('./LanguageSwitcher')
+  // },
   data: function () {
     const icons = { mdiMenu }
     return {
       drawer: false,
-      logoSrc: require('@/assets/logo.svg'),
+      logoSrc: require('@/assets/TAP_PNG.png'),
       icons
     }
   },
@@ -113,7 +113,9 @@ export default {
 .app-bar-shadow {
   box-shadow: inset 0 -1px 0 0 rgba(0,0,0,0.1) !important;
 }
-
+.logo-header{
+  width: 100px;
+}
 .toolbar-wrapper {
   display: flex;
   flex-direction: row;
