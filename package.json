@@ -41,12 +41,7 @@
     "nuxt-i18n": "6.20.2",
     "nuxt-webfontloader": "1.1.0",
     "svg-country-flags": "1.2.10",
-    "vercel": "^27.3.7",
-    "vue-amplitude": "1.0.3",
-    "vue-apexcharts": "1.6.0",
-    "vue-confetti": "2.2.1",
-    "vue-server-renderer": "^2.7.8",
-    "vue-template-compiler": "^2.7.8"
+    "vercel": "^27.3.7"
   },
   "devDependencies": {
     "@mdi/js": "5.9.55",
@@ -60,6 +55,11 @@
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.3.1",
     "eslint-plugin-standard": "4.1.0",
-    "eslint-plugin-vue": "7.6.0"
+    "eslint-plugin-vue": "7.6.0",
+    "vue-amplitude": "1.0.3",
+    "vue-apexcharts": "1.6.0",
+    "vue-confetti": "2.2.1",
+    "vue-server-renderer": "^2.7.8",
+    "vue-template-compiler": "^2.7.8"
   }
 }
