@@ -4,7 +4,7 @@ import {
   getItems,
   sleep,
   getInfo,
-  elapsedTimeInSeconds
+  elapsedTimeInSeconds,
 } from "../lib/helpers";
 
 export const strict = false;
@@ -22,13 +22,13 @@ const getDefaultState = () => ({
   snackbar: {
     active: false,
     message: false,
-    type: false
+    type: false,
   },
   form: {
     age: 0,
     language: "",
     gender: "",
-    accepted: false
+    accepted: false,
   },
   languages,
   test: {
@@ -39,27 +39,27 @@ const getDefaultState = () => ({
     position: 0,
     done: false,
     invalid: false,
-    inProgress: false
-  }
+    inProgress: false,
+  },
 });
 
 export const state = () => getDefaultState();
 
 export const getters = {
-  GET_TEST_ID: state => {
+  GET_TEST_ID: (state) => {
     return state.testId;
   },
-  GET_NAME: state => {
+  GET_NAME: (state) => {
     return state.name;
   },
-  GET_SURNAME: state => {
+  GET_SURNAME: (state) => {
     return state.surname;
   },
-  GET_EMAIL: state => {
+  GET_EMAIL: (state) => {
     return state.email;
   },
 
-  FORM_IS_VALID: state => {
+  FORM_IS_VALID: (state) => {
     return !!(
       state.form.gender &&
       state.form.language &&
@@ -67,7 +67,7 @@ export const getters = {
       state.form.age > 15
     );
   },
-  GET_SELECTED_LANGUAGE: state => {
+  GET_SELECTED_LANGUAGE: (state) => {
     const { text } =
       state.languages.find(({ value }) => value === state.form.language) || {};
     return text;
@@ -78,10 +78,12 @@ export const getters = {
       test.position + test.itemsPerPage
     );
   },
-  GET_CURRENT_ANSWER: ({ test }) => id => {
-    return test.answers[id] ? test.answers[id].score : "";
-  },
-  GET_PROGRESS: state => {
+  GET_CURRENT_ANSWER:
+    ({ test }) =>
+    (id) => {
+      return test.answers[id] ? test.answers[id].score : "";
+    },
+  GET_PROGRESS: (state) => {
     return Math.round(
       (Object.keys(state.test.answers).length / state.test.inventory.length) *
         100
@@ -93,31 +95,33 @@ export const getters = {
       test.position,
       test.position + test.itemsPerPage
     );
-    return currentQuestions.filter(item => !test.answers[item.id]).length !== 0;
+    return (
+      currentQuestions.filter((item) => !test.answers[item.id]).length !== 0
+    );
   },
   BACK_BUTTON_STATE: ({ test }) => {
     return test.position < test.itemsPerPage;
-  }
+  },
 };
 
 export const mutations = {
-  RESET_STATE: state => {
+  RESET_STATE: (state) => {
     Object.assign(state, getDefaultState());
   },
   SET_SNACKBAR: (state, { msg, type = "info" }) => {
     state.snackbar = {
       message: msg,
       type,
-      active: true
+      active: true,
     };
   },
   SET_SLIDE: (state, slide) => {
     state.slide = slide;
   },
-  NEXT_SLIDE: state => {
+  NEXT_SLIDE: (state) => {
     state.slide++;
   },
-  PREV_SLIDE: state => {
+  PREV_SLIDE: (state) => {
     state.slide--;
   },
   SET_LANGUAGE: (state, language) => {
@@ -137,12 +141,12 @@ export const mutations = {
   SET_ITEMS_PER_PAGE: (state, itemsPerPage) => {
     state.test.itemsPerPage = itemsPerPage;
   },
-  SET_INVENTORY: state => {
+  SET_INVENTORY: (state) => {
     state.test.inventory = getItems(state.form.language || "en");
     state.test.testStart = Date.now();
   },
   SET_ANSWER: async (state, { id, answer }) => {
-    const { domain, facet } = state.test.inventory.find(q => q.id === id);
+    const { domain, facet } = state.test.inventory.find((q) => q.id === id);
 
     const lastAnswerId = Object.keys(state.test.answers).slice(-1)[0];
 
@@ -150,7 +154,7 @@ export const mutations = {
       questionID: id,
       score: parseInt(answer),
       domain,
-      facet
+      facet,
     });
 
     if (state.test.itemsPerPage === 1) {
@@ -183,12 +187,12 @@ export const mutations = {
     test.position -= test.itemsPerPage;
   },
   SKIP_QUESTIONS: ({ test }) => {
-    test.inventory.forEach(question => {
+    test.inventory.forEach((question) => {
       Vue.set(test.answers, question.id, {
         questionID: question.id,
         score: Math.floor(Math.random() * 5) + 1,
         domain: question.domain,
-        facet: question.facet
+        facet: question.facet,
       });
     });
     test.position = test.inventory.length;
@@ -219,7 +223,7 @@ export const mutations = {
   },
   SET_TEST_ID: (state, testId) => {
     state.testId = testId;
-  }
+  },
 };
 
 export const actions = {
@@ -233,9 +237,9 @@ export const actions = {
         testId: getInfo.shortId,
         lang: context.state.form.language,
         invalid: context.state.test.invalid,
-        answers: Object.keys(answers).map(key => answers[key]),
+        answers: Object.keys(answers).map((key) => answers[key]),
         timeElapsed: elapsedTimeInSeconds(context.state.test.testStart),
-        dateStamp: Date.now()
+        dateStamp: Date.now(),
       };
       // Id for test reuslts are here
       const { id } = await this.$axios.$post(
@@ -249,12 +253,12 @@ create the axios calls for emails to external source
 */
 
       this.$axios.$post(
-        "https://tank-sensor.herokuapp.com/api/emails/testresult",
+        "https://tank-sensor-test.herokuapp.com/api/emails/testresult",
         {
           name: context.state.name,
           surname: context.state.surname,
           email: context.state.email,
-          id: id
+          id: id,
         }
       );
 
@@ -267,5 +271,5 @@ create the axios calls for emails to external source
       context.commit("SET_SNACKBAR", { msg: error.message, type: "error" });
       context.commit("SET_LOADING", false);
     }
-  }
+  },
 };
